@@ -4,7 +4,6 @@ on:
   push:
     branches: [main]
     paths:
-      - "RL/VAE_261004/VAE_261004.md"
       - ".github/workflows/build-vae-pdf.yml"
 
 permissions:
@@ -15,15 +14,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install PDF dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y pandoc texlive-xetex texlive-latex-extra fonts-noto-cjk
+          sudo apt-get install -y pandoc texlive-xetex texlive-latex-extra texlive-lang-chinese fonts-noto-cjk
 
-      - name: Build PDF
+      - name: Build PDF from math-rich source snapshot
         run: |
-          pandoc "RL/VAE_261004/VAE_261004.md"             --pdf-engine=xelatex             -o "RL/VAE_261004/VAE_261004.pdf"
+          git show 8963e7b26ad0ff3bb588f8d476edda183d05c397:"RL/VAE_261004/VAE_261004.md" > /tmp/VAE_261004_pdf_source.md
+          pandoc /tmp/VAE_261004_pdf_source.md             --pdf-engine=xelatex             -o "RL/VAE_261004/VAE_261004.pdf"
 
       - name: Commit generated PDF
         run: |
@@ -33,6 +35,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "PDF unchanged"
           else
-            git commit -m "Build VAE_261004 PDF [skip ci]"
+            git commit -m "Add rendered VAE_261004 PDF [skip ci]"
             git push
           fi
