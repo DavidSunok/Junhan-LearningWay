@@ -6,7 +6,7 @@
 
 ## 0. 记号与假设
 
-单个观测为 $x$，潜变量为 $z$。
+单个观测为 `x`，潜变量为 `z`。
 
 生成模型：
 
@@ -146,7 +146,7 @@ D_{\mathrm{KL}}(q_\phi\Vert p_\theta(z\mid x))
 \end{aligned}
 $$
 
-因为 $x$ 已固定，$\log p_\theta(x)$ 与 $z$ 无关，可以直接移出期望。
+因为 `x` 已固定，`\log p_\theta(x)` 与 `z` 无关，可以直接移出期望。
 
 移项：
 
@@ -212,7 +212,7 @@ $$
 p_\theta(x)=\int p_\theta(x,z)dz.
 $$
 
-乘除同一个 $q_\phi(z\mid x)$：
+乘除同一个 `q_\phi(z\mid x)`：
 
 $$
 p_\theta(x)
@@ -240,7 +240,7 @@ $$
 \frac{p_\theta(x,z)}{q_\phi(z\mid x)}.
 $$
 
-它不是拍脑袋凑出来的，而是把难积分改写成“从一个容易采样的 $q$ 中取样，再用比值修正”的形式。
+它不是拍脑袋凑出来的，而是把难积分改写成“从一个容易采样的 `q` 中取样，再用比值修正”的形式。
 
 取 log：
 
@@ -254,7 +254,7 @@ $$
 \right].
 $$
 
-因为 $\log$ 是凹函数，Jensen 不等式给出：
+因为 `\log` 是凹函数，Jensen 不等式给出：
 
 $$
 \log \mathbb E[Y]
@@ -465,7 +465,7 @@ D_{\mathrm{KL}}(q\Vert p)
 }.
 $$
 
-对 $d$ 维对角高斯，各维相加：
+对 `d` 维对角高斯，各维相加：
 
 $$
 \boxed{
@@ -509,7 +509,7 @@ kl = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
 
 ## 7. 为什么 Bernoulli decoder 对应 BCE？
 
-对于像素 $x_i\in\{0,1\}$，设 decoder 输出 Bernoulli 参数：
+对于像素 `x_i\in\{0,1\}`，设 decoder 输出 Bernoulli 参数：
 
 $$
 p_\theta(x\mid z)
@@ -539,7 +539,7 @@ $$
 \operatorname{BCE}(x,\pi).
 $$
 
-实践中 decoder 输出 logits $a_i$，令：
+实践中 decoder 输出 logits `a_i`，令：
 
 $$
 \pi_i=\sigma(a_i),
@@ -570,9 +570,9 @@ C
 \|x-f_\theta(z)\|_2^2.
 $$
 
-当 $\sigma_x^2$ 固定时，最大化 log-likelihood 等价于最小化 MSE（差一个常数和缩放系数）。
+当 `\sigma_x^2` 固定时，最大化 log-likelihood 等价于最小化 MSE（差一个常数和缩放系数）。
 
-所以“reconstruction loss”并不是天生就是 BCE 或 MSE；它取决于我们选择了怎样的 observation likelihood $p_\theta(x\mid z)$。
+所以“reconstruction loss”并不是天生就是 BCE 或 MSE；它取决于我们选择了怎样的 observation likelihood `p_\theta(x\mid z)`。
 
 ---
 
@@ -584,7 +584,7 @@ $$
 \mathbb E_{q_\phi(z\mid x)}[f_\theta(z)].
 $$
 
-但 $z$ 的采样分布依赖 $\phi$。对于高斯，可以令：
+但 `z` 的采样分布依赖 `\phi`。对于高斯，可以令：
 
 $$
 \epsilon\sim\mathcal N(0,I),
@@ -607,7 +607,7 @@ $$
 [f_\theta(g_\phi(x,\epsilon))].
 $$
 
-现在采样分布不再依赖 $\phi$；$\phi$ 只出现在确定性函数 $g_\phi$ 中，因此可以用普通 backprop：
+现在采样分布不再依赖 `\phi`；`\phi` 只出现在确定性函数 `g_\phi` 中，因此可以用普通 backprop：
 
 $$
 \nabla_\phi
@@ -652,7 +652,7 @@ $$
 
 作为单样本 Monte Carlo 估计。
 
-对 minibatch $B$：
+对 minibatch `B`：
 
 $$
 \widehat{\mathcal L}
@@ -666,7 +666,7 @@ $$
 
 ---
 
-## 11. $q(z)$：aggregated posterior 的推导
+## 11. `q(z)`：aggregated posterior 的推导
 
 定义 inference joint：
 
@@ -674,7 +674,7 @@ $$
 q(x,z)=p_{\mathrm{data}}(x)q_\phi(z\mid x).
 $$
 
-边缘化 $x$：
+边缘化 `x`：
 
 $$
 \boxed{
@@ -696,7 +696,7 @@ q_\phi(z\mid x_i)
 }.
 $$
 
-因此 $q(z)$ 是所有 per-example posterior 的混合。
+因此 `q(z)` 是所有 per-example posterior 的混合。
 
 注意：标准 VAE 的 ELBO 中逐样本惩罚的是：
 
@@ -716,7 +716,7 @@ $$
 
 ## 12. KL 非对称与 mode behavior 的数学来源
 
-### 12.1 $D_{\mathrm{KL}}(P\Vert Q)$
+### 12.1 `D_{\mathrm{KL}}(P\Vert Q)`
 
 $$
 D_{\mathrm{KL}}(P\Vert Q)
@@ -727,15 +727,15 @@ D_{\mathrm{KL}}(P\Vert Q)
 \right].
 $$
 
-平均权重来自 $P$。若某区域 $P(x)>0$ 但 $Q(x)\to0$：
+平均权重来自 `P`。若某区域 `P(x)>0` 但 `Q(x)\to0`：
 
 $$
 \log\frac{P(x)}{Q(x)}\to+\infty.
 $$
 
-所以遗漏 $P$ 的支持区域会很贵。
+所以遗漏 `P` 的支持区域会很贵。
 
-### 12.2 $D_{\mathrm{KL}}(Q\Vert P)$
+### 12.2 `D_{\mathrm{KL}}(Q\Vert P)`
 
 $$
 D_{\mathrm{KL}}(Q\Vert P)
@@ -746,9 +746,9 @@ D_{\mathrm{KL}}(Q\Vert P)
 \right].
 $$
 
-平均权重来自 $Q$。$Q$ 几乎不去的地方几乎不参与平均；但如果 $Q$ 把质量放到 $P(x)\approx0$ 的位置，则代价很大。
+平均权重来自 `Q`。`Q` 几乎不去的地方几乎不参与平均；但如果 `Q` 把质量放到 `P(x)\approx0` 的位置，则代价很大。
 
-在受限单峰 $Q$ 去拟合多峰 $P$ 时，这常导致选一个峰而不是横跨低密度区，因此被称为 mode-seeking。
+在受限单峰 `Q` 去拟合多峰 `P` 时，这常导致选一个峰而不是横跨低密度区，因此被称为 mode-seeking。
 
 这是一种常见近似行为，不是脱离具体参数化后的普遍定理。
 
@@ -756,7 +756,7 @@ $$
 
 ## 13. 从 ELBO 到代码的精确对应
 
-对于一条样本 $x$：
+对于一条样本 `x`：
 
 1. encoder：
 
